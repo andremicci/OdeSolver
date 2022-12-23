@@ -91,8 +91,7 @@ void OdeSolver::Solve()
 
   else if (m_method == "Rk2")
   {  
-    //cout << "entro in rk2"<< endl;
-    // STEP 5 implementare Runge Kutta al secondo ordine
+    
     vector<Vector> k1(m_p.size());
     vector<Vector> w1(m_p.size());
     for (unsigned int i = 0; i < m_p.size(); i++)
@@ -114,7 +113,7 @@ void OdeSolver::Solve()
     {
       k2[i] = m_h * (m_p[i].V() + w1[i] * (0.5));
 
-      w2[i] = m_h * m_eqDiff(i, m_t, p2);
+      w2[i] = m_h * m_eqDiff(i, m_t+m_h*0.5, p2);
     }
     for (unsigned int i = 0; i < m_p.size(); i++)
     {
@@ -170,7 +169,7 @@ void OdeSolver::Solve()
     {
       k2[i] = m_h * (m_p[i].V() + w1[i] * (0.5));
 
-      w2[i] = m_h * m_eqDiff(i, m_t, p2);
+      w2[i] = m_h * m_eqDiff(i, m_t+m_h*0.5, p2);
     }
    
 
@@ -184,7 +183,7 @@ void OdeSolver::Solve()
     }
     for(unsigned int i=0;i<m_p.size();i++){
       k3[i]=m_h*(m_p[i].V()+w2[i]*(0.5));
-      w3[i]=m_h*m_eqDiff(i,m_t,p3);
+      w3[i]=m_h*m_eqDiff(i,m_t+m_h*0.5,p3);
     }
     
     
@@ -199,7 +198,7 @@ void OdeSolver::Solve()
   
     for(unsigned int i=0;i<m_p.size();i++){
       k4[i]=m_h*(m_p[i].V()+w3[i]);
-      w4[i]=m_h*m_eqDiff(i,m_t,p4);
+      w4[i]=m_h*m_eqDiff(i,m_t+m_h,p4);
     }
 
        for (unsigned int i = 0; i < m_p.size(); i++)
